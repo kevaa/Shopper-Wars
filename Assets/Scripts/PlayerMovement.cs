@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     Player player;
     float actionMovementMultiplier = .1f;
-
+    [SerializeField] Joystick joystick;
     private void Awake()
     {
         player = GetComponent<Player>();
@@ -44,9 +44,8 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        horizontal = Input.GetAxisRaw("Horizontal");
-        vertical = Input.GetAxisRaw("Vertical");
-
+        horizontal = joystick.Horizontal;
+        vertical = joystick.Vertical;
         movement.Set(horizontal, 0f, vertical);
         movement.Normalize();
         var isWalking = IsWalking(horizontal, vertical);

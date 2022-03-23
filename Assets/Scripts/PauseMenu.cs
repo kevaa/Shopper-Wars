@@ -2,25 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using System;
 
 public class PauseMenu : MonoBehaviour
 {
     [SerializeField] GameObject pauseMenu;
     bool gameEnded = false;
     [SerializeField] bool changeTimeScale;
+
+    public event Action OnPause = delegate { };
+    public event Action OnResume = delegate { };
+
     private void Start()
     {
         GameManager.Instance.OnGameEnd += GameEnded;
     }
-    private void Update()
+    public void Pause()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && !gameEnded)
+        if (!gameEnded)
         {
             if (changeTimeScale)
             {
                 Time.timeScale = 0;
             }
             pauseMenu.SetActive(true);
+            OnPause();
         }
     }
 
@@ -35,6 +41,7 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1;
         }
         pauseMenu.SetActive(false);
+        OnResume();
     }
 
     public void Restart()

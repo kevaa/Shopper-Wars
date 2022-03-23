@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(Animator))]
 public class Player : Shopper
@@ -17,6 +18,11 @@ public class Player : Shopper
     public float moveSpeed { get; private set; }
     [SerializeField] float defaultMoveSpeed;
 
+    [SerializeField] ButtonState attackButton;
+    [SerializeField] ButtonState equipButton;
+    [SerializeField] ButtonState setTrapButton;
+
+
     protected override void Start()
     {
         base.Start();
@@ -25,11 +31,11 @@ public class Player : Shopper
     }
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (attackButton.pressed)
         {
             Push();
         }
-        else if (Input.GetMouseButtonDown(1))
+        else if (setTrapButton.pressed)
         {
             if (trapCount > 0 && !coroutineActive)
             {
@@ -37,7 +43,7 @@ public class Player : Shopper
             }
             PlaceTrap();
         }
-        if (Input.GetKeyDown(KeyCode.E))
+        if (equipButton.pressed)
         {
             if (currentPickup != null)
             {
