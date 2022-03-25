@@ -45,8 +45,11 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        horizontal = joystick.Horizontal;
-        vertical = joystick.Vertical;
+        var keyboardHorizontal = Input.GetAxis("Horizontal");
+        var keyboardVertical = Input.GetAxis("Vertical");
+
+        horizontal = keyboardHorizontal != 0f ? keyboardHorizontal : joystick.Horizontal;
+        vertical = keyboardVertical != 0f ? keyboardVertical : joystick.Vertical;
         movement.Set(horizontal, 0f, vertical);
         movement.Normalize();
         isWalking = player.moveSpeed != 0 && IsWalking(horizontal, vertical);

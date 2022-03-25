@@ -30,11 +30,11 @@ public class Player : Shopper
     }
     void Update()
     {
-        if (attackButton.pressed)
+        if (attackButton.pressed || Input.GetKeyDown(KeyCode.P))
         {
             Push();
         }
-        else if (setTrapButton.pressed)
+        else if (setTrapButton.pressed || Input.GetKeyDown(KeyCode.O))
         {
             if (trapCount > 0 && !coroutineActive)
             {
@@ -42,7 +42,7 @@ public class Player : Shopper
             }
             PlaceTrap();
         }
-        if (equipButton.pressed)
+        if (equipButton.pressed || Input.GetKeyDown(KeyCode.E))
         {
             if (currentPickup != null)
             {
