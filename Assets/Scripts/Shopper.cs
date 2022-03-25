@@ -113,7 +113,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
     }
 
     public abstract void Stall(float speedReduction, float duration);
-    public abstract void Slip(Vector3 force, float duration);
+    public abstract void Slip(Vector3 force, float duration, bool fall);
 
 
 }

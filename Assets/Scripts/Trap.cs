@@ -32,7 +32,7 @@ public abstract class Trap : MonoBehaviour, IGrocery
             hitSomething = true;
 
             var shopper = other.GetComponent<Shopper>();
-            if (trapTriggerCount < trapTriggerMax - 1 && shopper != null)
+            if (trapTriggerCount < trapTriggerMax && shopper != null)
             {
                 trapTriggerCount++;
                 audioSource.PlayOneShot(triggerSound, .25f);

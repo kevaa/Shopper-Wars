@@ -6,9 +6,11 @@ public class SlipTrap : Trap
 {
     [SerializeField] float duration;
     [SerializeField] Vector3 force;
+    [SerializeField] bool fall;
+
 
     protected override void Impede(Shopper shopper)
     {
-        shopper.Slip(force, duration);
+        shopper.Slip(force, duration, fall);
     }
 }

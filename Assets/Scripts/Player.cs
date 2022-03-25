@@ -103,24 +103,30 @@ public class Player : Shopper
         debuffed = false;
     }
 
-    public override void Slip(Vector3 force, float duration)
+    public override void Slip(Vector3 force, float duration, bool fall)
     {
         if (!debuffed)
         {
-            StartCoroutine(SlipCoroutine(force, duration));
+            StartCoroutine(SlipCoroutine(force, duration, fall));
         }
     }
 
-    IEnumerator SlipCoroutine(Vector3 force, float duration)
+    IEnumerator SlipCoroutine(Vector3 force, float duration, bool fall)
     {
         debuffed = true;
         moveSpeed = 0f;
         rb.velocity = transform.TransformVector(force);
-        yield return new WaitForSeconds(.25f);
-        animator.SetBool("Slip", true);
+        if (fall)
+        {
+            yield return new WaitForSeconds(.25f);
+            animator.SetBool("Slip", true);
+        }
         yield return new WaitForSeconds(duration != 0 ? duration : .1f);
-        animator.SetBool("Slip", false);
-        yield return new WaitForSeconds(slipAnimTime);
+        if (fall)
+        {
+            animator.SetBool("Slip", false);
+            yield return new WaitForSeconds(slipAnimTime);
+        }
         moveSpeed = defaultMoveSpeed;
         debuffed = false;
     }

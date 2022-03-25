@@ -91,21 +91,27 @@ public class EnemyAIController : Shopper
         debuffed = false;
     }
 
-    public override void Slip(Vector3 force, float dur)
+    public override void Slip(Vector3 force, float dur, bool fall)
     {
-        StartCoroutine(SlipCoroutine(force, dur));
+        StartCoroutine(SlipCoroutine(force, dur, fall));
     }
 
-    IEnumerator SlipCoroutine(Vector3 force, float dur)
+    IEnumerator SlipCoroutine(Vector3 force, float dur, bool fall)
     {
         debuffed = true;
         navMeshAgent.speed = 0f;
         rb.velocity = transform.TransformDirection(force);
-        yield return new WaitForSeconds(.25f);
-        animator.SetBool("Slip", true);
+        if (fall)
+        {
+            yield return new WaitForSeconds(.25f);
+            animator.SetBool("Slip", true);
+        }
         yield return new WaitForSeconds(dur);
-        animator.SetBool("Slip", false);
-        yield return new WaitForSeconds(slipAnimTime);
+        if (fall)
+        {
+            animator.SetBool("Slip", false);
+            yield return new WaitForSeconds(slipAnimTime);
+        }
         navMeshAgent.speed = defaultMoveSpeed;
         debuffed = false;
     }
