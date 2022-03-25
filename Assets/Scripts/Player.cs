@@ -4,7 +4,6 @@ using UnityEngine;
 using System;
 using UnityEngine.UI;
 
-[RequireComponent(typeof(Animator))]
 public class Player : Shopper
 {
     public event Action OnEquipped = delegate { };
@@ -14,14 +13,14 @@ public class Player : Shopper
 
     public event Action OnEnteredPickupRadius = delegate { };
     public event Action OnLeftPickupRadius = delegate { };
-    bool stalled = false;
+    bool debuffed = false;
     public float moveSpeed { get; private set; }
     [SerializeField] float defaultMoveSpeed;
 
     [SerializeField] ButtonState attackButton;
     [SerializeField] ButtonState equipButton;
     [SerializeField] ButtonState setTrapButton;
-
+    float slipAnimTime = 2f;
 
     protected override void Start()
     {
@@ -89,19 +88,40 @@ public class Player : Shopper
 
     public override void Stall(float speedReduction, float duration)
     {
-        if (!stalled)
+        if (!debuffed)
         {
             StartCoroutine(StallCoroutine(speedReduction, duration));
         }
     }
 
-
     IEnumerator StallCoroutine(float speedReduction, float duration)
     {
-        stalled = true;
+        debuffed = true;
         moveSpeed *= speedReduction;
         yield return new WaitForSeconds(duration);
         moveSpeed = defaultMoveSpeed;
-        stalled = false;
+        debuffed = false;
+    }
+
+    public override void Slip(Vector3 force, float duration)
+    {
+        if (!debuffed)
+        {
+            StartCoroutine(SlipCoroutine(force, duration));
+        }
+    }
+
+    IEnumerator SlipCoroutine(Vector3 force, float duration)
+    {
+        debuffed = true;
+        moveSpeed = 0f;
+        rb.velocity = transform.TransformVector(force);
+        yield return new WaitForSeconds(.25f);
+        animator.SetBool("Slip", true);
+        yield return new WaitForSeconds(duration != 0 ? duration : .1f);
+        animator.SetBool("Slip", false);
+        yield return new WaitForSeconds(slipAnimTime);
+        moveSpeed = defaultMoveSpeed;
+        debuffed = false;
     }
 }

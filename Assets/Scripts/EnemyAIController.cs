@@ -11,8 +11,9 @@ public class EnemyAIController : Shopper
 
     Transform target;
     AudioSource audioSource;
+    float slipAnimTime = 2f;
 
-    bool stalled;
+    bool debuffed;
     protected override void Awake()
     {
         base.Awake();
@@ -75,7 +76,7 @@ public class EnemyAIController : Shopper
 
     public override void Stall(float speedReduction, float duration)
     {
-        if (!stalled)
+        if (!debuffed)
         {
             StartCoroutine(StallCoroutine(speedReduction, duration));
         }
@@ -83,10 +84,29 @@ public class EnemyAIController : Shopper
 
     IEnumerator StallCoroutine(float speedReduction, float duration)
     {
-        stalled = true;
+        debuffed = true;
         navMeshAgent.speed *= speedReduction;
         yield return new WaitForSeconds(duration);
         navMeshAgent.speed = defaultMoveSpeed;
-        stalled = false;
+        debuffed = false;
+    }
+
+    public override void Slip(Vector3 force, float dur)
+    {
+        StartCoroutine(SlipCoroutine(force, dur));
+    }
+
+    IEnumerator SlipCoroutine(Vector3 force, float dur)
+    {
+        debuffed = true;
+        navMeshAgent.speed = 0f;
+        rb.velocity = transform.TransformDirection(force);
+        yield return new WaitForSeconds(.25f);
+        animator.SetBool("Slip", true);
+        yield return new WaitForSeconds(dur);
+        animator.SetBool("Slip", false);
+        yield return new WaitForSeconds(slipAnimTime);
+        navMeshAgent.speed = defaultMoveSpeed;
+        debuffed = false;
     }
 }

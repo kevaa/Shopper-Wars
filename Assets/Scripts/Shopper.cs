@@ -4,6 +4,8 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(Rigidbody))]
+[RequireComponent(typeof(Animator))]
+
 public abstract class Shopper : MonoBehaviour, IPushable
 {
     GameObject equippedTrapPrefab;
@@ -11,7 +13,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
     [SerializeField] GameObject defaultWeaponPrefab;
     public int trapCount { get; private set; }
     Dictionary<GroceryName, int> groceries;
-    Rigidbody rb;
+    protected Rigidbody rb;
     float attackAnimTime = .6f;
     [SerializeField] Transform trapSpawnTransform;
     [SerializeField] Transform weaponTransform;
@@ -111,5 +113,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
     }
 
     public abstract void Stall(float speedReduction, float duration);
+    public abstract void Slip(Vector3 force, float duration);
+
 
 }

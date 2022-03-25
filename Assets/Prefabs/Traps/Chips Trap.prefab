@@ -414,13 +414,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40d62fedc9310064ab7d9744c0d9c2b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  trapTriggerMax: 5
-  trapCount: 1
+  trapTriggerMax: 1
+  trapCount: 3
   setSound: {fileID: 8300000, guid: 3becec1909f194046945d85ac1077772, type: 3}
   triggerSound: {fileID: 8300000, guid: 7b5aa09ec00e88b40b015ffce7e4669a, type: 3}
   groceryName: 3
   stallDuration: 5
-  stallReductionMultiplier: 0.6
+  stallReductionMultiplier: 0.5
 --- !u!82 &2982069542714478022
 AudioSource:
   m_ObjectHideFlags: 0

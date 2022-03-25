@@ -15,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
     Animator mAnimator;
 
     Player player;
+    bool isWalking;
     float actionMovementMultiplier = .1f;
     [SerializeField] Joystick joystick;
     private void Awake()
@@ -48,7 +49,7 @@ public class PlayerMovement : MonoBehaviour
         vertical = joystick.Vertical;
         movement.Set(horizontal, 0f, vertical);
         movement.Normalize();
-        var isWalking = IsWalking(horizontal, vertical);
+        isWalking = player.moveSpeed != 0 && IsWalking(horizontal, vertical);
         mAnimator.SetBool("IsWalking", isWalking);
         if (isWalking)
         {
@@ -64,7 +65,7 @@ public class PlayerMovement : MonoBehaviour
     }
     private void FixedUpdate()
     {
-        if (movement != Vector3.zero)
+        if (isWalking && movement != Vector3.zero)
         {
             rb.MovePosition(rb.position + (movement * player.moveSpeed * Time.fixedDeltaTime * (player.coroutineActive ? actionMovementMultiplier : 1)));
             var desiredForward = Vector3.RotateTowards(transform.forward, movement, rotSpeed * Time.fixedDeltaTime, 0f);

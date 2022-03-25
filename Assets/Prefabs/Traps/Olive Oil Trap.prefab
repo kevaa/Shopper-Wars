@@ -121,9 +121,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2982069542714478021}
-  - component: {fileID: 2982069542714478040}
   - component: {fileID: 2982069542714478022}
   - component: {fileID: 8375666985269781696}
+  - component: {fileID: -4493937966732114021}
   m_Layer: 0
   m_Name: Olive Oil Trap
   m_TagString: Untagged
@@ -146,25 +146,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2982069542714478040
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2982069542714478017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 40d62fedc9310064ab7d9744c0d9c2b9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  trapTriggerMax: 2
-  trapCount: 3
-  setSound: {fileID: 8300000, guid: 29bde6326b4c34ad8a12da475f79b50a, type: 3}
-  triggerSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
-  groceryName: 1
-  stallDuration: 3
-  stallReductionMultiplier: 0.25
 --- !u!82 &2982069542714478022
 AudioSource:
   m_ObjectHideFlags: 0
@@ -274,3 +255,22 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.77
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &-4493937966732114021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2982069542714478017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6e7ab27c2559364cbb454c1d7e2dba1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  trapTriggerMax: 1
+  trapCount: 1
+  setSound: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
+  triggerSound: {fileID: 8300000, guid: 2c5292ba5cf254919a6b9e2b18e04f49, type: 3}
+  groceryName: 0
+  duration: 3
+  force: {x: 0, y: 0, z: 15}

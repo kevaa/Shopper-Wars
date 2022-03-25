@@ -77,7 +77,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd2ae8531a8b0af4b969c2501d519590, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pushForce: {x: 0, y: 0, z: 40}
+  pushForce: {x: 0, y: 0, z: 55}
   attackSound: {fileID: 8300000, guid: d8d04c6f80a1140db85ede568dab1f51, type: 3}
   groceryName: 2
 --- !u!135 &766096737786837437
