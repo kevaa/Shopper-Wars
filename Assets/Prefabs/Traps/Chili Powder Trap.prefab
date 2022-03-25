@@ -192,7 +192,7 @@ MonoBehaviour:
   setSound: {fileID: 8300000, guid: 19f89c6e740e7447f9e12a8310d3e973, type: 3}
   triggerSound: {fileID: 8300000, guid: 716086722f3d156418ec89016e320245, type: 3}
   groceryName: 0
-  duration: 0.1
+  duration: 0.25
   force: {x: 0, y: 0, z: -15}
 --- !u!1 &5220113604073680218
 GameObject:

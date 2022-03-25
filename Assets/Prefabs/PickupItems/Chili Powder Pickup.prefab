@@ -17,7 +17,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &1539383839619693855
 Transform:
@@ -87,7 +87,7 @@ GameObject:
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 4294967295
   m_IsActive: 1
 --- !u!4 &5070047312797517300
 Transform:
@@ -116,6 +116,22 @@ PrefabInstance:
     - target: {fileID: 1153533623221226, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
       propertyPath: m_Name
       value: Chili Powder (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153533623221226, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299490863354354, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599249872857096, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1909126084367594, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4640789503162026, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
       propertyPath: m_RootOrder
@@ -160,6 +176,18 @@ PrefabInstance:
     - target: {fileID: 4640789503162026, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086132702474865141, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086814125456785067, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4087013833034410005, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
@@ -235,9 +263,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3016073145466326297, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 3299941264054414501, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3299941264054414501, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 3540314343305104150, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
       propertyPath: m_Name
@@ -247,9 +283,17 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3540314343305104150, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
     - target: {fileID: 5876287539571347498, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5876287539571347498, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5307803229108159648, guid: 2f95fc8c5850f244490b2a999cdebf24, type: 3}
@@ -272,6 +316,22 @@ PrefabInstance:
     - target: {fileID: 1153533623221226, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
       propertyPath: m_Name
       value: Chili Powder
+      objectReference: {fileID: 0}
+    - target: {fileID: 1153533623221226, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1299490863354354, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1599249872857096, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 1909126084367594, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     - target: {fileID: 4640789503162026, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
       propertyPath: m_RootOrder
@@ -316,6 +376,18 @@ PrefabInstance:
     - target: {fileID: 4640789503162026, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086132702474865141, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4086814125456785067, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
+      objectReference: {fileID: 0}
+    - target: {fileID: 4087013833034410005, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 4294967295
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43b9e18aca00f72499238be2cbf94caf, type: 3}
