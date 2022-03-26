@@ -16,7 +16,7 @@ public class PlayerMovement : MonoBehaviour
 
     Player player;
     bool isWalking;
-    float actionMovementMultiplier = .1f;
+    float actionMovementMultiplier = .01f;
     [SerializeField] Joystick joystick;
     private void Awake()
     {

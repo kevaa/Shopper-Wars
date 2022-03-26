@@ -15,6 +15,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
     Dictionary<GroceryName, int> groceries;
     protected Rigidbody rb;
     float attackAnimTime = .6f;
+    [SerializeField] float attackAnimMult = 1f;
     [SerializeField] Transform trapSpawnTransform;
     [SerializeField] Transform weaponTransform;
     public event Action<Dictionary<GroceryName, int>> OnGroceriesChanged = delegate { };
@@ -45,19 +46,25 @@ public abstract class Shopper : MonoBehaviour, IPushable
     {
         if (!coroutineActive)
         {
+            coroutineActive = true;
             StartCoroutine(PushCoroutine());
         }
     }
 
     IEnumerator PushCoroutine()
     {
-        coroutineActive = true;
         animator.SetTrigger("IsAttacking");
-        yield return new WaitForSeconds(attackAnimTime / 3);
+        Debug.Log("attacking");
+        yield return new WaitForSeconds(attackAnimTime / 3f * attackAnimMult);
         weapon.EnableCol();
-        yield return new WaitForSeconds(attackAnimTime / 3);
+        yield return new WaitForSeconds(.2f); // Ensure animator started animation
+
+        while (animator.GetCurrentAnimatorStateInfo(0).IsName("Attack"))
+        {
+            yield return null;
+        }
         weapon.DisableCol();
-        yield return new WaitForSeconds(attackAnimTime / 3);
+        Debug.Log("done");
         coroutineActive = false;
     }
     IEnumerator PlaceTrapCoroutine()
@@ -87,7 +94,10 @@ public abstract class Shopper : MonoBehaviour, IPushable
         var weaponGO = Instantiate(weaponPrefab, weaponTransform);
         weapon = weaponGO.GetComponent<Weapon>();
         weapon.SetShopperTransform(transform);
+        weapon.SetShopper(this);
         AddGrocery(weapon);
+        attackAnimMult = weapon.GetAttackAnimMult();
+        animator.SetFloat("AttackMult", attackAnimMult);
     }
 
     public void GetPushed(Vector3 force)
