@@ -24,14 +24,17 @@ public abstract class Shopper : MonoBehaviour, IPushable
     public bool coroutineActive { get; private set; } = false; // When shopper doing action like placing trap/pushing
     protected Animator animator;
     protected Pickup currentPickup;
+
+    Dictionary<GroceryName, bool> groceryList;
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
+        groceryList = new Dictionary<GroceryName, bool>();
+        groceries = new Dictionary<GroceryName, int>();
     }
     protected virtual void Start()
     {
-        groceries = new Dictionary<GroceryName, int>();
         EquipWeapon(defaultWeaponPrefab);
     }
 
@@ -125,5 +128,16 @@ public abstract class Shopper : MonoBehaviour, IPushable
     public abstract void Stall(float speedReduction, float duration);
     public abstract void Slip(Vector3 force, float duration, bool fall);
 
-
+    public void AddToGroceryList(GroceryName groceryName)
+    {
+        groceryList[groceryName] = false;
+    }
+    public void FoundGrocery(GroceryName groceryName)
+    {
+        if (groceryList.ContainsKey(groceryName) && !groceryList[groceryName])
+        {
+            groceryList[groceryName] = true;
+            // TODO update grocery list UI
+        }
+    }
 }

@@ -13,4 +13,9 @@ public class Pickup : MonoBehaviour
         }
         return null;
     }
+
+    public GroceryName GetGroceryName()
+    {
+        return pickupPrefab.GetComponent<IGrocery>().GetName();
+    }
 }
