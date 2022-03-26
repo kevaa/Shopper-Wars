@@ -44,7 +44,7 @@ public class Player : Shopper
         }
         if (equipButton.pressed || Input.GetKeyDown(KeyCode.E))
         {
-            if (currentPickup != null)
+            if (currentPickup != null && NeedGrocery(currentPickup.GetGroceryName()))
             {
                 var item = currentPickup.PickupItem();
                 currentPickup.gameObject.SetActive(false);

@@ -12,7 +12,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
 
     [SerializeField] GameObject defaultWeaponPrefab;
     public int trapCount { get; private set; }
-    Dictionary<GroceryName, int> groceries;
+    Dictionary<GroceryName, int> groceriesFound;
     protected Rigidbody rb;
     float attackAnimTime = .6f;
     [SerializeField] float attackAnimMult = 1f;
@@ -25,13 +25,13 @@ public abstract class Shopper : MonoBehaviour, IPushable
     protected Animator animator;
     protected Pickup currentPickup;
 
-    Dictionary<GroceryName, bool> groceryList;
+    Dictionary<GroceryName, int> groceryList;
     protected virtual void Awake()
     {
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
-        groceryList = new Dictionary<GroceryName, bool>();
-        groceries = new Dictionary<GroceryName, int>();
+        groceryList = new Dictionary<GroceryName, int>();
+        groceriesFound = new Dictionary<GroceryName, int>();
     }
     protected virtual void Start()
     {
@@ -57,7 +57,6 @@ public abstract class Shopper : MonoBehaviour, IPushable
     IEnumerator PushCoroutine()
     {
         animator.SetTrigger("IsAttacking");
-        Debug.Log("attacking");
         yield return new WaitForSeconds(attackAnimTime / 3f * attackAnimMult);
         weapon.EnableCol();
         yield return new WaitForSeconds(.2f); // Ensure animator started animation
@@ -67,7 +66,6 @@ public abstract class Shopper : MonoBehaviour, IPushable
             yield return null;
         }
         weapon.DisableCol();
-        Debug.Log("done");
         coroutineActive = false;
     }
     IEnumerator PlaceTrapCoroutine()
@@ -85,7 +83,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
         equippedTrapPrefab = trapPrefab;
         var trap = trapPrefab.GetComponent<Trap>();
         trapCount = trap.GetTrapCount();
-        AddGrocery(trap);
+        FoundGrocery(trap);
     }
 
     public void EquipWeapon(GameObject weaponPrefab)
@@ -98,7 +96,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
         weapon = weaponGO.GetComponent<Weapon>();
         weapon.SetShopperTransform(transform);
         weapon.SetShopper(this);
-        AddGrocery(weapon);
+        FoundGrocery(weapon);
         attackAnimMult = weapon.GetAttackAnimMult();
         animator.SetFloat("AttackMult", attackAnimMult);
     }
@@ -108,36 +106,45 @@ public abstract class Shopper : MonoBehaviour, IPushable
         rb.velocity = force;
     }
 
-    void AddGrocery(IGrocery grocery)
-    {
-        var groceryName = grocery.GetName();
-        if (groceryName != GroceryName.Default)
-        {
-            if (groceries.ContainsKey(groceryName))
-            {
-                groceries[groceryName]++;
-            }
-            else
-            {
-                groceries[groceryName] = 1;
-            }
-            OnGroceriesChanged(groceries);
-        }
-    }
-
     public abstract void Stall(float speedReduction, float duration);
     public abstract void Slip(Vector3 force, float duration, bool fall);
 
     public void AddToGroceryList(GroceryName groceryName)
     {
-        groceryList[groceryName] = false;
-    }
-    public void FoundGrocery(GroceryName groceryName)
-    {
-        if (groceryList.ContainsKey(groceryName) && !groceryList[groceryName])
+        if (groceryList.ContainsKey(groceryName))
         {
-            groceryList[groceryName] = true;
-            // TODO update grocery list UI
+            groceryList[groceryName]++;
         }
+        else
+        {
+            groceryList[groceryName] = 1;
+            groceriesFound[groceryName] = 0;
+        }
+    }
+    public virtual void FoundGrocery(IGrocery grocery)
+    {
+        var groceryName = grocery.GetName();
+        if (groceriesFound.ContainsKey(groceryName) && NeedGrocery(groceryName))
+        {
+            groceriesFound[groceryName]++;
+            OnGroceriesChanged(groceriesFound);
+        }
+    }
+
+
+    public bool NeedGrocery(GroceryName groceryName)
+    {
+        return groceriesFound.ContainsKey(groceryName) ? groceriesFound[groceryName] < groceryList[groceryName] : false;
+    }
+
+    public string GetGroceryListString(Dictionary<GroceryName, int> list)
+    {
+        String s = "";
+        foreach (KeyValuePair<GroceryName, int> kvp in groceriesFound)
+        {
+            //textBox3.Text += ("Key = {0}, Value = {1}", kvp.Key, kvp.Value);
+            s += String.Format("Key = {0}, Value = {1}\n", kvp.Key, kvp.Value);
+        }
+        return s;
     }
 }

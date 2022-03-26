@@ -160,7 +160,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pushForce: {x: 0, y: 0, z: 30}
   attackSound: {fileID: 8300000, guid: d8d04c6f80a1140db85ede568dab1f51, type: 3}
-  groceryName: 2
+  groceryName: 6
   attackAnimMult: 0.8
 --- !u!82 &4691421300506971413
 AudioSource:
