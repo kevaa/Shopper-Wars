@@ -5,8 +5,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     bool gameEnded;
-    float gameLength = 180f;
-    float gameTime = 0f;
+    float gameTime = 180f;
     public int gameMinutes { get; private set; }
     public int gameSeconds { get; private set; }
     [SerializeField] GameObject endGameMenu;
@@ -32,13 +31,13 @@ public class GameManager : MonoBehaviour
             gameMinutes = Mathf.FloorToInt(gameTime / 60);
             gameSeconds = Mathf.RoundToInt(gameTime % 60);
 
-            if (gameTime == gameLength)
+            if (gameTime == 0)
             {
                 EndGame();
             }
             else
             {
-                gameTime = Mathf.Clamp(gameTime + Time.deltaTime, 0, gameLength);
+                gameTime -= Time.deltaTime;
             }
         }
     }
