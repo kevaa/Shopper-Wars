@@ -27,6 +27,7 @@ public class PauseMenu : MonoBehaviour
             }
             pauseMenu.SetActive(true);
             OnPause();
+            AudioListener.pause = true;
         }
     }
 
@@ -41,6 +42,8 @@ public class PauseMenu : MonoBehaviour
             Time.timeScale = 1;
         }
         pauseMenu.SetActive(false);
+        AudioListener.pause = false;
+
         OnResume();
     }
 

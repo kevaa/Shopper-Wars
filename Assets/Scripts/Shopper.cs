@@ -121,7 +121,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
             groceriesFound[groceryName] = 0;
         }
     }
-    public virtual void FoundGrocery(IGrocery grocery)
+    public void FoundGrocery(IGrocery grocery)
     {
         var groceryName = grocery.GetName();
         if (groceriesFound.ContainsKey(groceryName) && NeedGrocery(groceryName))
