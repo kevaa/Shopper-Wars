@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
             gameMinutes = Mathf.FloorToInt(gameTime / 60);
             gameSeconds = Mathf.RoundToInt(gameTime % 60);
 
-            if (gameTime == 0)
+            if (gameTime <= 0)
             {
                 EndGame();
             }

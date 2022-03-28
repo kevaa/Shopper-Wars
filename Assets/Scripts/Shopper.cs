@@ -18,12 +18,13 @@ public abstract class Shopper : MonoBehaviour, IPushable
     [SerializeField] float attackAnimMult = 1f;
     [SerializeField] Transform trapSpawnTransform;
     [SerializeField] protected Transform weaponTransform;
-    public event Action<Dictionary<GroceryName, int>> OnGroceriesChanged = delegate { };
+    public event Action<Dictionary<GroceryName, int>, Dictionary<GroceryName, int>> OnGroceriesChanged = delegate { };
     Weapon weapon;
 
     public bool coroutineActive { get; private set; } = false; // When shopper doing action like placing trap/pushing
     protected Animator animator;
     protected Pickup currentPickup;
+    protected String shoppername;
 
     Dictionary<GroceryName, int> groceryList;
     protected virtual void Awake()
@@ -128,7 +129,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
         if (groceriesFound.ContainsKey(groceryName) && NeedGrocery(groceryName))
         {
             groceriesFound[groceryName]++;
-            OnGroceriesChanged(groceriesFound);
+            OnGroceriesChanged(groceriesFound, groceryList);
         }
     }
 
@@ -147,5 +148,20 @@ public abstract class Shopper : MonoBehaviour, IPushable
             s += String.Format("Key = {0}, Value = {1}\n", kvp.Key, kvp.Value);
         }
         return s;
+    }
+
+    public void initGroceryList()
+    {
+        OnGroceriesChanged(groceriesFound, groceryList);
+    }
+
+    public String getShopperName()
+    {
+        return shoppername;
+    }
+
+    public void setShopperName(String name)
+    {
+        shoppername = name;
     }
 }

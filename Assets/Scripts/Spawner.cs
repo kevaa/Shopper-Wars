@@ -18,10 +18,23 @@ public class Spawner : MonoBehaviour
     [SerializeField] int numBaseGroceriesPerShopper;
     [SerializeField] int numSharedGroceries; // limited and shared across players
     List<Shopper> shoppers;
+    public event Action<Dictionary<string, int>> UpdateLeaderboard = delegate { };
+    Dictionary<string, int> leaderboard;
+
+    private static Spawner instance;
+    public static Spawner Instance { get { return instance; } }
 
 
     private void Awake()
     {
+        if (instance != null && instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        else
+        {
+            instance = this;
+        }
         shoppers = new List<Shopper> { player };
         // spawn enemies
         var rand = new System.Random();
@@ -30,6 +43,18 @@ public class Spawner : MonoBehaviour
         {
             var prefabInd = rand.Next(enemyPrefabs.Length);
             shoppers.Add(Instantiate(enemyPrefabs[prefabInd], enemySpawnPositions[enemySpawnPosInd++]).GetComponent<Shopper>());
+        }
+        leaderboard = new Dictionary<String, int>();
+        int temp = 1;
+        foreach(var shopper in shoppers)
+        {
+            shopper.setShopperName("Player "+temp);
+            temp++;
+        }
+        // initialize leaderboard
+        foreach (var shopper in shoppers)
+        {
+         leaderboard[shopper.getShopperName()] = 0;
         }
     }
 
@@ -60,5 +85,13 @@ public class Spawner : MonoBehaviour
                 shopper.AddToGroceryList(spawnedGroceryName);
             }
         }
+
+        // initialize grocery list
+        foreach (var shopper in shoppers)
+        {
+            shopper.initGroceryList();
+        }
+
+        UpdateLeaderboard(leaderboard);
     }
 }
