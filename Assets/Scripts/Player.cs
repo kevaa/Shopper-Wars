@@ -22,12 +22,33 @@ public class Player : Shopper
     [SerializeField] ButtonState setTrapButton;
     float slipAnimTime = 2f;
 
+    public GameObject graphicsChild;
+
+    GameObject skin;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        skin = Instantiate(SkinManager.Instance.selectedSkin, graphicsChild.transform);
+
+        skin.transform.localPosition = Vector3.zero;
+        skin.transform.localRotation = Quaternion.Euler(Vector3.zero);
+    }
+
     protected override void Start()
     {
-        base.Start();
-        moveSpeed = defaultMoveSpeed;
+        Transform weaponHolder = skin.transform.Find("Bip001/Bip001 Pelvis/Bip001 Spine/Bip001 R Clavicle/Bip001 R UpperArm/Bip001 R Forearm/Bip001 R Hand/R_hand_container/WeaponHolder");
+        if (weaponHolder != null)
+        {
+            weaponTransform = weaponHolder;
+        }
+        else Debug.Log("didn't find a holder");
 
+        base.Start();
+
+        moveSpeed = defaultMoveSpeed;
     }
+
     void Update()
     {
         if (attackButton.pressed || Input.GetKeyDown(KeyCode.P))

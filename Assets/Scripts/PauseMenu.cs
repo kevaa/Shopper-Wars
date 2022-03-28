@@ -68,6 +68,10 @@ public class PauseMenu : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+
+        //remove duplicate managers from dontdestroyonload
+        Destroy(SkinManager.Instance.gameObject);
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 

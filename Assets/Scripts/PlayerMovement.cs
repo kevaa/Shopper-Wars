@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(Animator))]
 [RequireComponent(typeof(Rigidbody))]
 [RequireComponent(typeof(AudioSource))]
 public class PlayerMovement : MonoBehaviour
@@ -21,13 +21,14 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         player = GetComponent<Player>();
-        mAnimator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         mAudioSource = GetComponent<AudioSource>();
 
     }
     private void Start()
     {
+        mAnimator = GetComponentInChildren<Animator>();
+
         GameManager.Instance.OnGameEnd += OnGameEnd;
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 using System;
 
 [RequireComponent(typeof(Rigidbody))]
-[RequireComponent(typeof(Animator))]
+//[RequireComponent(typeof(Animator))]
 
 public abstract class Shopper : MonoBehaviour, IPushable
 {
@@ -17,7 +17,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
     float attackAnimTime = .6f;
     [SerializeField] float attackAnimMult = 1f;
     [SerializeField] Transform trapSpawnTransform;
-    [SerializeField] Transform weaponTransform;
+    [SerializeField] protected Transform weaponTransform;
     public event Action<Dictionary<GroceryName, int>> OnGroceriesChanged = delegate { };
     Weapon weapon;
 
@@ -28,13 +28,14 @@ public abstract class Shopper : MonoBehaviour, IPushable
     Dictionary<GroceryName, int> groceryList;
     protected virtual void Awake()
     {
-        animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody>();
         groceryList = new Dictionary<GroceryName, int>();
         groceriesFound = new Dictionary<GroceryName, int>();
     }
     protected virtual void Start()
     {
+        animator = GetComponentInChildren<Animator>();
+
         EquipWeapon(defaultWeaponPrefab);
     }
 
