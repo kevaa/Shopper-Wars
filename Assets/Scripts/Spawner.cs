@@ -10,11 +10,11 @@ public class Spawner : MonoBehaviour
     [SerializeField] Player player;
     [SerializeField] GameObject[] enemyPrefabs;
     [SerializeField] Transform[] enemySpawnPositions;
-    [Header("numEnemies < length of enemySpawnPositions")]
+    [Header("numEnemies <= length of enemySpawnPositions")]
     [SerializeField] int numEnemies;
-    [Header("numBaseGroceriesPerShopper + numSharedGroceries", order = 0)]
+    [Header("(numEnemies * numBaseGroceriesPerShopper) + numSharedGroceries", order = 0)]
     [Space(-10, order = 1)]
-    [Header(" < length of pickupSpawnPositions", order = 2)]
+    [Header(" <= length of pickupSpawnPositions", order = 2)]
     [SerializeField] int numBaseGroceriesPerShopper;
     [SerializeField] int numSharedGroceries; // limited and shared across players
     List<Shopper> shoppers;
@@ -24,7 +24,8 @@ public class Spawner : MonoBehaviour
     private static Spawner instance;
     public static Spawner Instance { get { return instance; } }
 
-
+    int numPlayers;
+    public event Action<Dictionary<GroceryName, int>> OnSpawnedGroceries = delegate { };
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -35,11 +36,16 @@ public class Spawner : MonoBehaviour
         {
             instance = this;
         }
+        numPlayers = numEnemies + 1;
+        if (numPlayers > enemySpawnPositions.Length || (numPlayers * numBaseGroceriesPerShopper) + numSharedGroceries > pickupSpawnPositions.Length)
+        {
+            Debug.LogError("invalid parameters in Spawner script");
+        }
         shoppers = new List<Shopper> { player };
         // spawn enemies
         var rand = new System.Random();
         var enemySpawnPosInd = 0;
-        for (int i = 0; i < numEnemies; i++)
+        for (int i = 0; i < numPlayers; i++)
         {
             var prefabInd = rand.Next(enemyPrefabs.Length);
             shoppers.Add(Instantiate(enemyPrefabs[prefabInd], enemySpawnPositions[enemySpawnPosInd++]).GetComponent<Shopper>());
@@ -61,7 +67,8 @@ public class Spawner : MonoBehaviour
     private void Start()
     {
         var rand = new System.Random();
-
+        var pickupSpawnPositionsList = new List<Transform>(pickupSpawnPositions);
+        pickupSpawnPositionsList.Shuffle();
         // spawn base groceries
         var pickupSpawnPosInd = 0;
         foreach (var shopper in shoppers)
@@ -69,7 +76,7 @@ public class Spawner : MonoBehaviour
             for (int i = 0; i < numBaseGroceriesPerShopper; i++)
             {
                 var prefabInd = rand.Next(pickupPrefabs.Length);
-                var spawnedGroceryName = Instantiate(pickupPrefabs[prefabInd], pickupSpawnPositions[pickupSpawnPosInd++]).GetComponent<Pickup>().GetGroceryName();
+                var spawnedGroceryName = Instantiate(pickupPrefabs[prefabInd], pickupSpawnPositionsList[pickupSpawnPosInd++]).GetComponent<Pickup>().GetGroceryName();
                 shopper.AddToGroceryList(spawnedGroceryName);
             }
         }
@@ -78,13 +85,15 @@ public class Spawner : MonoBehaviour
         for (int i = 0; i < numSharedGroceries; i++)
         {
             var prefabInd = rand.Next(pickupPrefabs.Length);
-            var spawnedGroceryName = Instantiate(pickupPrefabs[prefabInd], pickupSpawnPositions[pickupSpawnPosInd++]).GetComponent<Pickup>().GetGroceryName();
+            var spawnedGroceryName = Instantiate(pickupPrefabs[prefabInd], pickupSpawnPositionsList[pickupSpawnPosInd++]).GetComponent<Pickup>().GetGroceryName();
 
             foreach (var shopper in shoppers)
             {
                 shopper.AddToGroceryList(spawnedGroceryName);
             }
         }
+        
+        OnSpawnedGroceries(player.GetGroceriesFound());
 
         // initialize grocery list
         foreach (var shopper in shoppers)
