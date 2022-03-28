@@ -50,16 +50,17 @@ public class Spawner : MonoBehaviour
             shoppers.Add(Instantiate(enemyPrefabs[prefabInd], enemySpawnPositions[enemySpawnPosInd++]).GetComponent<Shopper>());
         }
         leaderboard = new Dictionary<String, int>();
+        // set player's name
         int temp = 1;
         foreach(var shopper in shoppers)
         {
             shopper.setShopperName("Player "+temp);
             temp++;
         }
-        // initialize leaderboard
+        // leaderboard: player setup
         foreach (var shopper in shoppers)
         {
-         leaderboard[shopper.getShopperName()] = 0;
+         leaderboard.Add(shopper.getShopperName(),0);
         }
     }
 
@@ -98,6 +99,22 @@ public class Spawner : MonoBehaviour
             shopper.initGroceryList();
         }
 
+        // initialize leaderboard
         UpdateLeaderboard(leaderboard);
+    }
+
+    private void Update()
+    {
+        UpdateLeaderboard(leaderboard);
+    }
+
+    public Dictionary<string,int> getLeaderboard()
+    {
+        return leaderboard;
+    }
+
+    public void setLeaderboard(Dictionary<string, int> d)
+    {
+        leaderboard = d;
     }
 }

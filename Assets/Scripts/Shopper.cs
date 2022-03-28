@@ -135,6 +135,8 @@ public abstract class Shopper : MonoBehaviour, IPushable
         {
             groceriesFound[groceryName]++;
             OnGroceriesChanged(groceriesFound, groceryList);
+            // update leaderboard
+            updateLeaderboardHelper();
         }
     }
 
@@ -168,5 +170,17 @@ public abstract class Shopper : MonoBehaviour, IPushable
     public void setShopperName(String name)
     {
         shoppername = name;
+    }
+   
+    private void updateLeaderboardHelper()
+    {
+        Dictionary<string,int> temp = Spawner.Instance.getLeaderboard();
+        int cur_sum = 0;
+        foreach (var key in groceriesFound.Keys)
+        {
+            cur_sum += groceriesFound[key];
+        }
+        temp[getShopperName()] = cur_sum;
+        Spawner.Instance.setLeaderboard(temp);
     }
 }
