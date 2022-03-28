@@ -121,6 +121,11 @@ public abstract class Shopper : MonoBehaviour, IPushable
             groceriesFound[groceryName] = 0;
         }
     }
+
+    public Dictionary<GroceryName, int> GetGroceriesFound()
+    {
+        return groceriesFound;
+    }
     public void FoundGrocery(IGrocery grocery)
     {
         var groceryName = grocery.GetName();

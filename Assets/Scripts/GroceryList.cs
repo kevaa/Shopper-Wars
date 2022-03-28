@@ -7,11 +7,13 @@ public class GroceryList : MonoBehaviour
 {
     TextMeshProUGUI textGUI;
     [SerializeField] Player player;
+    [SerializeField] Spawner spawner;
 
     private void Awake()
     {
         textGUI = GetComponent<TextMeshProUGUI>();
         player.OnGroceriesChanged += UpdateGroceriesText;
+        spawner.OnSpawnedGroceries += UpdateGroceriesText;
     }
 
     void UpdateGroceriesText(Dictionary<GroceryName, int> groceries)
