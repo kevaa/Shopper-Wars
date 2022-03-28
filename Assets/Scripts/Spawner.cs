@@ -25,7 +25,6 @@ public class Spawner : MonoBehaviour
     public static Spawner Instance { get { return instance; } }
 
     int numPlayers;
-    public event Action<Dictionary<GroceryName, int>> OnSpawnedGroceries = delegate { };
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -92,8 +91,6 @@ public class Spawner : MonoBehaviour
                 shopper.AddToGroceryList(spawnedGroceryName);
             }
         }
-        
-        OnSpawnedGroceries(player.GetGroceriesFound());
 
         // initialize grocery list
         foreach (var shopper in shoppers)
