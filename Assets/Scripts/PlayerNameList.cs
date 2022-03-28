@@ -1,0 +1,20 @@
+public enum PlayerNameList
+{
+    double00,
+    Faeking,
+    Sabret00th,
+    trashpanda,
+    Jumpingjack,
+    Cassandrita,
+    DavyJones,
+    Deca_dent,
+    Faeryqueen,
+    UberRat,
+    Timewaster,
+    PrettyUgly,
+    Simplicity,
+    Dihard,
+    PeppermintP,
+    TheWelshDude,
+    CremeDeLa
+}

@@ -2,6 +2,8 @@ using UnityEngine;
 using TMPro;
 using System.Collections.Generic;
 using System;
+using System.Linq;
+
 [RequireComponent(typeof(TextMeshProUGUI))]
 public class Leaderboard : MonoBehaviour
 {
@@ -15,8 +17,9 @@ public class Leaderboard : MonoBehaviour
 
     void UpdateLeaderboardText(Dictionary<string, int> list)
     {
-        String text = "Leaderboard \n";
-        foreach (var key in list.Keys)
+        var ordered = list.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+        String text = "Leaderboard \n\n";
+        foreach (var key in ordered.Keys)
         {
             text += $"{key}: {list[key]} \n";
         }

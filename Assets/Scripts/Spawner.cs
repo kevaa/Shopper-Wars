@@ -40,23 +40,25 @@ public class Spawner : MonoBehaviour
         {
             Debug.LogError("invalid parameters in Spawner script");
         }
-        shoppers = new List<Shopper> { player };
+        shoppers = new List<Shopper> { };
+
+        Array values = Enum.GetValues(typeof(PlayerNameList));
+
         // spawn enemies
         var rand = new System.Random();
         var enemySpawnPosInd = 0;
         for (int i = 0; i < numPlayers; i++)
         {
             var prefabInd = rand.Next(enemyPrefabs.Length);
-            shoppers.Add(Instantiate(enemyPrefabs[prefabInd], enemySpawnPositions[enemySpawnPosInd++]).GetComponent<Shopper>());
+            var tempShopper = Instantiate(enemyPrefabs[prefabInd], enemySpawnPositions[enemySpawnPosInd++]).GetComponent<Shopper>();
+            tempShopper.setShopperName("(AI)"+ (PlayerNameList)values.GetValue(rand.Next(values.Length)));
+            shoppers.Add(tempShopper);
+
         }
+        player.setShopperName("(Player)"+ (PlayerNameList)values.GetValue(rand.Next(values.Length)));
+        shoppers.Add(player);
         leaderboard = new Dictionary<String, int>();
-        // set player's name
-        int temp = 1;
-        foreach(var shopper in shoppers)
-        {
-            shopper.setShopperName("Player "+temp);
-            temp++;
-        }
+        
         // leaderboard: player setup
         foreach (var shopper in shoppers)
         {

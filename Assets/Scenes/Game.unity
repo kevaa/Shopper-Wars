@@ -6756,7 +6756,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   player: {fileID: 465853124}
-  spawner: {fileID: 490940317}
 --- !u!1001 &557808049
 PrefabInstance:
   m_ObjectHideFlags: 0
