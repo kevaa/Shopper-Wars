@@ -2,10 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 
 public class Spawner : MonoBehaviour
 {
     [SerializeField] GameObject[] pickupPrefabs;
+    [SerializeField] GameObject[] weaponPrefabs;
+
     [SerializeField] Transform[] pickupSpawnPositions;
     [SerializeField] Player player;
     [SerializeField] GameObject[] enemyPrefabs;
@@ -25,6 +28,7 @@ public class Spawner : MonoBehaviour
     public static Spawner Instance { get { return instance; } }
 
     int numPlayers;
+    List<Pickup> pickups;
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -40,9 +44,11 @@ public class Spawner : MonoBehaviour
         {
             Debug.LogError("invalid parameters in Spawner script");
         }
-        shoppers = new List<Shopper> { };
-
-        Array values = Enum.GetValues(typeof(PlayerNameList));
+        shoppers = new List<Shopper>();
+        pickups = new List<Pickup>();
+        player.OnFoundAll += OnFoundAll;
+        List<PlayerNameList> values = Enum.GetValues(typeof(PlayerNameList)).Cast<PlayerNameList>().ToList();
+        values.Shuffle();
 
         // spawn enemies
         var rand = new System.Random();
@@ -51,18 +57,18 @@ public class Spawner : MonoBehaviour
         {
             var prefabInd = rand.Next(enemyPrefabs.Length);
             var tempShopper = Instantiate(enemyPrefabs[prefabInd], enemySpawnPositions[enemySpawnPosInd++]).GetComponent<Shopper>();
-            tempShopper.setShopperName("(AI)"+ (PlayerNameList)values.GetValue(rand.Next(values.Length)));
+            tempShopper.setShopperName("(AI)" + (PlayerNameList)values[i]);
             shoppers.Add(tempShopper);
 
         }
-        player.setShopperName("(Player)"+ (PlayerNameList)values.GetValue(rand.Next(values.Length)));
+        player.setShopperName("(Player)" + (PlayerNameList)values[values.Count - 1]);
         shoppers.Add(player);
         leaderboard = new Dictionary<String, int>();
-        
+
         // leaderboard: player setup
         foreach (var shopper in shoppers)
         {
-         leaderboard.Add(shopper.getShopperName(),0);
+            leaderboard.Add(shopper.getShopperName(), 0);
         }
     }
 
@@ -77,9 +83,23 @@ public class Spawner : MonoBehaviour
         {
             for (int i = 0; i < numBaseGroceriesPerShopper; i++)
             {
-                var prefabInd = rand.Next(pickupPrefabs.Length);
-                var spawnedGroceryName = Instantiate(pickupPrefabs[prefabInd], pickupSpawnPositionsList[pickupSpawnPosInd++]).GetComponent<Pickup>().GetGroceryName();
-                shopper.AddToGroceryList(spawnedGroceryName);
+                // spawn at least one weapon for each shopper
+                if (i == 0)
+                {
+                    var prefabInd = rand.Next(weaponPrefabs.Length);
+                    var pickupItem = Instantiate(weaponPrefabs[prefabInd], pickupSpawnPositionsList[pickupSpawnPosInd++]).GetComponent<Pickup>();
+                    pickups.Add(pickupItem);
+                    var spawnedGroceryName = pickupItem.GetGroceryName();
+                    shopper.AddToGroceryList(spawnedGroceryName);
+                }
+                else
+                {
+                    var prefabInd = rand.Next(pickupPrefabs.Length);
+                    var pickupItem = Instantiate(pickupPrefabs[prefabInd], pickupSpawnPositionsList[pickupSpawnPosInd++]).GetComponent<Pickup>();
+                    pickups.Add(pickupItem);
+                    var spawnedGroceryName = pickupItem.GetGroceryName();
+                    shopper.AddToGroceryList(spawnedGroceryName);
+                }
             }
         }
 
@@ -103,6 +123,15 @@ public class Spawner : MonoBehaviour
 
         // initialize leaderboard
         UpdateLeaderboard(leaderboard);
+
+        // highlight player groceries
+        foreach (var pickup in pickups)
+        {
+            if (player.GetGroceriesFound().ContainsKey(pickup.GetGroceryName()))
+            {
+                pickup.Highlight();
+            }
+        }
     }
 
     private void Update()
@@ -110,7 +139,7 @@ public class Spawner : MonoBehaviour
         UpdateLeaderboard(leaderboard);
     }
 
-    public Dictionary<string,int> getLeaderboard()
+    public Dictionary<string, int> getLeaderboard()
     {
         return leaderboard;
     }
@@ -118,5 +147,16 @@ public class Spawner : MonoBehaviour
     public void setLeaderboard(Dictionary<string, int> d)
     {
         leaderboard = d;
+    }
+
+    public void OnFoundAll(GroceryName grocery)
+    {
+        foreach (var pickup in pickups)
+        {
+            if (pickup.GetGroceryName() == grocery)
+            {
+                pickup.UnHighlight();
+            }
+        }
     }
 }

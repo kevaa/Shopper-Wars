@@ -9,6 +9,8 @@ public class Player : Shopper
     public event Action OnEquipped = delegate { };
 
     public event Action<int> OnTrapEquipped = delegate { };
+    public event Action<GroceryName> OnFoundAll = delegate { };
+
     public event Action OnTrapPlaced = delegate { };
 
     public event Action OnEnteredPickupRadius = delegate { };
@@ -65,8 +67,9 @@ public class Player : Shopper
         }
         if (equipButton.pressed || Input.GetKeyDown(KeyCode.E))
         {
-            if (currentPickup != null && NeedGrocery(currentPickup.GetGroceryName()))
+            if (currentPickup != null)
             {
+                var groceryName = currentPickup.GetGroceryName();
                 var item = currentPickup.PickupItem();
                 currentPickup.gameObject.SetActive(false);
                 if (item != null)
@@ -83,6 +86,11 @@ public class Player : Shopper
                     {
                         EquipWeapon(item);
                     }
+
+                    if (!NeedGrocery(groceryName))
+                    {
+                        OnFoundAll(groceryName);
+                    }
                 }
             }
         }
@@ -91,7 +99,7 @@ public class Player : Shopper
     private void OnTriggerEnter(Collider other)
     {
         var pickup = other.GetComponent<Pickup>();
-        if (pickup != null)
+        if (pickup != null && NeedGrocery(pickup.GetGroceryName()))
         {
             currentPickup = pickup;
             OnEnteredPickupRadius();

@@ -171,10 +171,10 @@ public abstract class Shopper : MonoBehaviour, IPushable
     {
         shoppername = name;
     }
-   
+
     private void updateLeaderboardHelper()
     {
-        Dictionary<string,int> temp = Spawner.Instance.getLeaderboard();
+        Dictionary<string, int> temp = Spawner.Instance.getLeaderboard();
         int cur_sum = 0;
         foreach (var key in groceriesFound.Keys)
         {
