@@ -11,6 +11,11 @@ public class SkinManager : MonoBehaviour
 
     public GameObject selectedSkin;
 
+
+    public List<Transform> skinButtons;
+
+    public GameObject skinSelectGlow;
+
     //quick and dirty singleton
     private static SkinManager _instance;
 
@@ -27,6 +32,7 @@ public class SkinManager : MonoBehaviour
         if (skinIndex > 0 && skinIndex < skinPrefabs.Count)
         {
             selectedSkin = skinPrefabs[skinIndex];
+            skinSelectGlow.transform.position = skinButtons[skinIndex].transform.position;
         }
     }
 }
