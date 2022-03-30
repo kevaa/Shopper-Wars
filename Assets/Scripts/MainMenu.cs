@@ -26,4 +26,8 @@ public class MainMenu : MonoBehaviour
         statsCanvas.SetActive(!statsCanvas.activeInHierarchy);
     }
 
+    public void ClearStatsBoard()
+    {
+        StatsticsBoard.Instance.clearAllData();
+    }
 }

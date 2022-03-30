@@ -5,7 +5,8 @@ using System;
 public class GameManager : MonoBehaviour
 {
     bool gameEnded;
-    float gameTime = 180f;
+    float gameTime = 10f;
+    float elapseTime = 0f;
     public int gameMinutes { get; private set; }
     public int gameSeconds { get; private set; }
     [SerializeField] GameObject endGameMenu;
@@ -38,6 +39,7 @@ public class GameManager : MonoBehaviour
             else
             {
                 gameTime -= Time.deltaTime;
+                elapseTime += Time.deltaTime;
             }
         }
     }
@@ -48,6 +50,14 @@ public class GameManager : MonoBehaviour
         OnGameEnd();
         endGameMenu.SetActive(true);
         StartCoroutine(FadeInEndMenu());
+
+        // save stats
+        StatsticsBoard.Instance.SetTimeRecord(elapseTime);
+        StatsticsBoard.Instance.IncNumberGamePlayed();
+
+        // check place
+
+        StatsticsBoard.Instance.SaveData();
     }
 
     IEnumerator FadeInEndMenu()
