@@ -5,7 +5,7 @@ using System;
 public class GameManager : MonoBehaviour
 {
     bool gameEnded;
-    float gameTime = 10f;
+    float gameTime = 180f;
     float elapseTime = 0f;
     public int gameMinutes { get; private set; }
     public int gameSeconds { get; private set; }
