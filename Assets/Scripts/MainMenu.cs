@@ -4,7 +4,7 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
     public GameObject customizationCanvas;
-
+    public GameObject statsCanvas;
 
     public void PlayGame()
     {
@@ -19,6 +19,11 @@ public class MainMenu : MonoBehaviour
     public void ToggleCustomization()
     {
         customizationCanvas.SetActive(!customizationCanvas.activeInHierarchy);
+    }
+
+    public void ToggleStatsBoard()
+    {
+        statsCanvas.SetActive(!statsCanvas.activeInHierarchy);
     }
 
 }
