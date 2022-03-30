@@ -56,6 +56,7 @@ public class EnemyAIController : Shopper
             if(weapon.GetName() != GroceryName.Default)
             {
                 Push();
+                navMeshAgent.SetDestination(GetRandomWanderPos(randomDestDistance, -1));
             }
         }
 
