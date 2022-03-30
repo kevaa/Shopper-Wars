@@ -51,7 +51,7 @@ public class EnemyAIController : Shopper
 
         var ray = new Ray(this.transform.position, this.transform.forward);
         RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, 0.2f))
+        if(Physics.Raycast(ray, out hit, 0.5f))
         {   
             if(weapon.GetName() != GroceryName.Default)
             {
