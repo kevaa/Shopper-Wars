@@ -5,7 +5,7 @@ using System;
 using System.Linq;
 public class GameManager : MonoBehaviour
 {
-    float gameTime = 10f;
+    float gameTime = 180f;
     float elapseTime = 0f;
     bool gameEnded = false;
     public int gameMinutes { get; private set; }
