@@ -2,9 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using System;
 [RequireComponent(typeof(NavMeshAgent))]
 public class EnemyAIController : Shopper
 {
+    public event Action OnEquipped = delegate { };
+
+    public event Action<int> OnTrapEquipped = delegate { };
+    public event Action<GroceryName> OnFoundAll = delegate { };
+
     NavMeshAgent navMeshAgent;
     float randomDestDistance = 30f;
     [SerializeField] float defaultMoveSpeed;
@@ -14,6 +20,11 @@ public class EnemyAIController : Shopper
     float slipAnimTime = 2f;
 
     bool debuffed;
+
+    enum state {Wander, Seek}
+    state currentState = state.Wander;
+    Pickup focus = null;
+
     protected override void Awake()
     {
         base.Awake();
@@ -37,7 +48,25 @@ public class EnemyAIController : Shopper
     void Update()
     {
         HandleWalkingAnim();
-        WanderState();
+
+        var ray = new Ray(this.transform.position, this.transform.forward);
+        RaycastHit hit;
+        if(Physics.Raycast(ray, out hit, 0.2f))
+        {   
+            if(weapon.GetName() != GroceryName.Default)
+            {
+                Push();
+            }
+        }
+
+        if (currentState == state.Wander)
+        {
+            WanderState();
+        }
+        if(currentState == state.Seek)
+        {
+            SeekState();
+        }
     }
 
     void HandleWalkingAnim()
@@ -64,10 +93,40 @@ public class EnemyAIController : Shopper
             navMeshAgent.SetDestination(GetRandomWanderPos(randomDestDistance, -1));
         }
     }
+    void SeekState()
+    {
+        if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
+        {
+            var item = focus.PickupItem();
+            var groceryName = focus.GetGroceryName();
+            focus.gameObject.SetActive(false);
+            if (item != null)
+            {
+                OnEquipped();
+                var trap = item.GetComponent<Trap>();
+                var weapon = item.GetComponent<Weapon>();
+                if (trap != null)
+                {
+                    EquipTrap(item);
+                    OnTrapEquipped(trap.GetTrapCount());
+                }
+                else if (weapon != null)
+                {
+                    EquipWeapon(item);
+                }
+
+                if (!NeedGrocery(groceryName))
+                {
+                    OnFoundAll(groceryName);
+                }
+            }
+            currentState = state.Wander;
+        }
+    }
 
     public Vector3 GetRandomWanderPos(float dist, int layermask)
     {
-        var randomSurroundingPos = transform.position + (Random.insideUnitSphere * dist);
+        var randomSurroundingPos = transform.position + (UnityEngine.Random.insideUnitSphere * dist);
         NavMeshHit navMeshHit;
         NavMesh.SamplePosition(randomSurroundingPos, out navMeshHit, dist, layermask);
 
@@ -114,5 +173,19 @@ public class EnemyAIController : Shopper
         }
         navMeshAgent.speed = defaultMoveSpeed;
         debuffed = false;
+    }
+
+    private void OnTriggerEnter(Collider collider)
+    {
+        Pickup item = collider.GetComponent<Pickup>();
+        if (item != null)
+        {
+            if (NeedGrocery(item.GetGroceryName()))
+            {
+                navMeshAgent.SetDestination(item.GetComponent<Transform>().position);
+                focus = item;
+                currentState = state.Seek;
+            }
+        }
     }
 }

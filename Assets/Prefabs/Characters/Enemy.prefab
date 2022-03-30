@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 7027385921495375878}
   - component: {fileID: 7027385921495375879}
   - component: {fileID: 7261666417318064883}
+  - component: {fileID: -8726688394169086027}
   m_Layer: 6
   m_Name: Enemy
   m_TagString: Untagged
@@ -203,6 +204,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultWeaponPrefab: {fileID: 4653499347742497459, guid: d448c5fc5671a59449d2bbf737fa34a0, type: 3}
+  attackAnimMult: 1
   trapSpawnTransform: {fileID: 4092029304783581913}
   weaponTransform: {fileID: 0}
   defaultMoveSpeed: 5
@@ -222,6 +224,19 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!135 &-8726688394169086027
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2064817667620779011}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 6
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &2064817668036565906
 GameObject:
   m_ObjectHideFlags: 0
