@@ -44,7 +44,7 @@ public class Player : Shopper
         {
             weaponTransform = weaponHolder;
         }
-        else Debug.Log("didn't find a holder");
+        else Debug.Log("didn't find a weapon holder");
 
         base.Start();
 

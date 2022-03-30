@@ -150,7 +150,7 @@ public class StatsticsBoard : MonoBehaviour
         text += "\n";
         text += "Current Record: " + StatsticsBoard.Instance.GetTimeRecord() + "\n";
         text += "\n";
-        text += "Skin unlocked: " + StatsticsBoard.Instance.GetNumberTotalSkinUnlocked() + "\n";
+        text += "Skins Unlocked: " + StatsticsBoard.Instance.GetNumberTotalSkinUnlocked() + "\n";
         textGUI.text = text;
     }
 
