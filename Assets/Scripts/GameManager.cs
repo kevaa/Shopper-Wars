@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using System.Linq;
 public class GameManager : MonoBehaviour
 {
-    bool gameEnded;
-    float gameTime = 180f;
+    float gameTime = 10f;
     float elapseTime = 0f;
+    bool gameEnded = false;
     public int gameMinutes { get; private set; }
     public int gameSeconds { get; private set; }
     [SerializeField] GameObject endGameMenu;
@@ -29,35 +30,26 @@ public class GameManager : MonoBehaviour
     {
         if (!gameEnded)
         {
-            gameMinutes = Mathf.FloorToInt(gameTime / 60);
-            gameSeconds = Mathf.RoundToInt(gameTime % 60);
-
             if (gameTime <= 0)
             {
                 EndGame();
+                UpdateStatsBoard();
             }
             else
             {
                 gameTime -= Time.deltaTime;
                 elapseTime += Time.deltaTime;
+                gameMinutes = Mathf.FloorToInt(gameTime / 60);
+                gameSeconds = Mathf.RoundToInt(gameTime % 60);
             }
         }
     }
 
-    void EndGame()
+    public void EndGame()
     {
-        gameEnded = true;
         OnGameEnd();
         endGameMenu.SetActive(true);
         StartCoroutine(FadeInEndMenu());
-
-        // save stats
-        StatsticsBoard.Instance.SetTimeRecord(elapseTime);
-        StatsticsBoard.Instance.IncNumberGamePlayed();
-
-        // check place
-
-        StatsticsBoard.Instance.SaveData();
     }
 
     IEnumerator FadeInEndMenu()
@@ -70,5 +62,42 @@ public class GameManager : MonoBehaviour
             seconds += Time.deltaTime;
             yield return null;
         }
+    }
+
+    private void UpdateStatsBoard()
+    {
+        // save stats
+        StatsticsBoard.Instance.SetTimeRecord(elapseTime);
+        StatsticsBoard.Instance.SetNumberGamePlayed(StatsticsBoard.Instance.GetNumberGamePlayed() + 1);
+
+        // check place
+        var rank = Spawner.Instance.getLeaderboard();
+        var ordered = rank.OrderByDescending(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+        var playerName = Spawner.Instance.GetPlayerName();
+        ArrayList nameList = new ArrayList();
+        foreach (var key in ordered.Keys)
+        {
+            nameList.Add(key);
+        }
+        Debug.Log(nameList);
+        Debug.Log("PLAYER: " + playerName);
+        if (nameList[0].Equals(playerName))
+        {
+            StatsticsBoard.Instance.SetNumberFirstPlace(StatsticsBoard.Instance.GetNumberFirstPlace() + 1);
+            StatsticsBoard.Instance.SetNumberTotalWin(StatsticsBoard.Instance.GetNumberTotalWin() + 1);
+        }
+        if (nameList[1].Equals(playerName))
+        {
+            StatsticsBoard.Instance.SetNumberSecondPlace(StatsticsBoard.Instance.GetNumberSecondPlace() + 1);
+            StatsticsBoard.Instance.SetNumberTotalWin(StatsticsBoard.Instance.GetNumberTotalWin() + 1);
+        }
+        if (nameList[2].Equals(playerName))
+        {
+            StatsticsBoard.Instance.SetNumberThirdPlace(StatsticsBoard.Instance.GetNumberThirdPlace() + 1);
+            StatsticsBoard.Instance.SetNumberTotalWin(StatsticsBoard.Instance.GetNumberTotalWin() + 1);
+        }
+
+        StatsticsBoard.Instance.SaveData();
+        gameEnded = true;
     }
 }

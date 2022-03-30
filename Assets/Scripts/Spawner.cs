@@ -27,6 +27,7 @@ public class Spawner : MonoBehaviour
     private static Spawner instance;
     public static Spawner Instance { get { return instance; } }
 
+    string playerName;
     int numPlayers;
     List<Pickup> pickups;
     private void Awake()
@@ -61,7 +62,8 @@ public class Spawner : MonoBehaviour
             shoppers.Add(tempShopper);
 
         }
-        player.setShopperName("(Player)" + (PlayerNameList)values[values.Count - 1]);
+        playerName = "(Player)" + (PlayerNameList)values[values.Count - 1];
+        player.setShopperName(playerName);
         shoppers.Add(player);
         leaderboard = new Dictionary<String, int>();
 
@@ -158,5 +160,10 @@ public class Spawner : MonoBehaviour
                 pickup.UnHighlight();
             }
         }
+    }
+
+    public string GetPlayerName()
+    {
+        return playerName;
     }
 }

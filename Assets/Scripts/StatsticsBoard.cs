@@ -61,9 +61,9 @@ public class StatsticsBoard : MonoBehaviour
         refreshStatsBoard();
     }
 
-    public void IncNumberGamePlayed()
+    public void SetNumberGamePlayed(int n)
     {
-        PlayerPrefs.SetInt("GamePlayed", PlayerPrefs.GetInt("GamePlayed") + 1);
+        PlayerPrefs.SetInt("GamePlayed", n);
     }
 
     public int GetNumberGamePlayed()
@@ -71,18 +71,18 @@ public class StatsticsBoard : MonoBehaviour
         return PlayerPrefs.GetInt("GamePlayed");
     }
 
-    public void IncNumberFirstPlace()
+    public void SetNumberFirstPlace(int n)
     {
-        PlayerPrefs.SetInt("FirstPlace", PlayerPrefs.GetInt("FirstPlace") + 1);
+        PlayerPrefs.SetInt("FirstPlace", n);
     }
 
     public int GetNumberFirstPlace()
     {
         return PlayerPrefs.GetInt("FirstPlace");
     }
-    public void IncNumberSecondPlace()
+    public void SetNumberSecondPlace(int n)
     {
-        PlayerPrefs.SetInt("SecondPlace", PlayerPrefs.GetInt("SecondPlace") + 1);
+        PlayerPrefs.SetInt("SecondPlace", n);
     }
 
     public int GetNumberSecondPlace()
@@ -90,26 +90,26 @@ public class StatsticsBoard : MonoBehaviour
         return PlayerPrefs.GetInt("SecondPlace");
     }
 
-    public void IncNumberThirdPlace()
+    public void SetNumberThirdPlace(int n)
     {
-        PlayerPrefs.SetInt("ThirdPlace", PlayerPrefs.GetInt("ThirdPlace") + 1);
+        PlayerPrefs.SetInt("ThirdPlace", n);
     }
     public int GetNumberThirdPlace()
     {
         return PlayerPrefs.GetInt("ThirdPlace");
     }
-    public void IncNumberTotalWin()
+    public void SetNumberTotalWin(int n)
     {
-        PlayerPrefs.SetInt("TotalWin", PlayerPrefs.GetInt("TotalWin") + 1);
+        PlayerPrefs.SetInt("TotalWin", n);
     }
     public int GetNumberTotalWin()
     {
         return PlayerPrefs.GetInt("TotalWin");
     }
 
-    public void IncNumberTotalSkinUnlocked()
+    public void SetNumberTotalSkinUnlocked(int n)
     {
-        PlayerPrefs.SetInt("SkinUnclocked", PlayerPrefs.GetInt("SkinUnclocked") + 1);
+        PlayerPrefs.SetInt("SkinUnclocked", n);
     }
 
     public int GetNumberTotalSkinUnlocked()
@@ -136,6 +136,7 @@ public class StatsticsBoard : MonoBehaviour
     public void SaveData()
     {
         PlayerPrefs.Save();
+        refreshStatsBoard();
     }
     private void refreshStatsBoard()
     {
