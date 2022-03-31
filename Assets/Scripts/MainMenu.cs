@@ -32,7 +32,7 @@ public class MainMenu : MonoBehaviour
 
     public void ClearStatsBoard()
     {
-        StatsticsBoard.Instance.clearAllData();
+        PlayerPrefs.DeleteAll();
     }
 
 }

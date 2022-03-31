@@ -55,7 +55,7 @@ public class GameManager : MonoBehaviour
         OnGameEnd();
         endGameMenu.SetActive(true);
         StartCoroutine(FadeInEndMenu());
-        UpdateStatsBoard();
+        Updatestats();
     }
 
     IEnumerator FadeInEndMenu()
@@ -70,7 +70,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void UpdateStatsBoard()
+    private void Updatestats()
     {
         // save stats
         StatsticsBoard.Instance.SetTimeRecord(elapseTime);
@@ -103,7 +103,7 @@ public class GameManager : MonoBehaviour
             StatsticsBoard.Instance.SetNumberTotalWin(StatsticsBoard.Instance.GetNumberTotalWin() + 1);
         }
 
-        StatsticsBoard.Instance.SaveData();
+        PlayerPrefs.Save();
         gameEnded = true;
     }
 }

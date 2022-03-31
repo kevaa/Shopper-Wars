@@ -2,12 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-using TMPro;
 
 public class StatsticsBoard : MonoBehaviour
 {
-    TextMeshProUGUI textGUI;
-
     private static StatsticsBoard instance;
     public static StatsticsBoard Instance { get { return instance; } }
 
@@ -21,8 +18,6 @@ public class StatsticsBoard : MonoBehaviour
         {
             instance = this;
         }
-
-        textGUI = GetComponent<TextMeshProUGUI>();
 
         if (!PlayerPrefs.HasKey("GamePlayed"))
         {
@@ -52,15 +47,9 @@ public class StatsticsBoard : MonoBehaviour
         {
             PlayerPrefs.SetFloat("TimeRecord", 0f);
         }
-        SaveData();
+        PlayerPrefs.Save();
 
     }
-
-    private void Start()
-    {
-        refreshStatsBoard();
-    }
-
     public void SetNumberGamePlayed(int n)
     {
         PlayerPrefs.SetInt("GamePlayed", n);
@@ -125,33 +114,6 @@ public class StatsticsBoard : MonoBehaviour
     public float GetTimeRecord()
     {
         return PlayerPrefs.GetFloat("TimeRecord");
-    }
-
-    public void clearAllData()
-    {
-        PlayerPrefs.DeleteAll();
-        refreshStatsBoard();
-    }
-
-    public void SaveData()
-    {
-        PlayerPrefs.Save();
-        refreshStatsBoard();
-    }
-    private void refreshStatsBoard()
-    {
-        String text = "";
-        text += "Total Game Played: " + StatsticsBoard.Instance.GetNumberGamePlayed() + "\n";
-        text += "\n";
-        text += "Total Wins: " + StatsticsBoard.Instance.GetNumberTotalWin() + "\n";
-        text += "1st Place: " + StatsticsBoard.Instance.GetNumberFirstPlace() + "\n";
-        text += "2nd Place: " + StatsticsBoard.Instance.GetNumberSecondPlace() + "\n";
-        text += "3rd Place: " + StatsticsBoard.Instance.GetNumberThirdPlace() + "\n";
-        text += "\n";
-        text += "Current Record: " + StatsticsBoard.Instance.GetTimeRecord() + "\n";
-        text += "\n";
-        text += "Skins Unlocked: " + StatsticsBoard.Instance.GetNumberTotalSkinUnlocked() + "\n";
-        textGUI.text = text;
     }
 
 }
