@@ -14,6 +14,7 @@ public class EnemyAIController : Shopper
     NavMeshAgent navMeshAgent;
     float randomDestDistance = 30f;
     [SerializeField] float defaultMoveSpeed;
+    [SerializeField] GroceryDetector detector;
 
     Transform target;
     AudioSource audioSource;
@@ -21,7 +22,7 @@ public class EnemyAIController : Shopper
 
     bool debuffed;
 
-    enum state {Wander, Seek}
+    enum state { Wander, Seek }
     state currentState = state.Wander;
     Pickup focus = null;
 
@@ -30,7 +31,7 @@ public class EnemyAIController : Shopper
         base.Awake();
         navMeshAgent = GetComponent<NavMeshAgent>();
         audioSource = GetComponent<AudioSource>();
-
+        detector.OnPickupDetected += OnPickupDetected;
     }
     protected override void Start()
     {
@@ -49,27 +50,29 @@ public class EnemyAIController : Shopper
     {
         HandleWalkingAnim();
 
-        var ray = new Ray(this.transform.position, this.transform.forward);
-        RaycastHit hit;
-        if(Physics.Raycast(ray, out hit, 1f))
-        {   
-            if(weapon.GetName() != GroceryName.Default)
-            {
-                Push();
-                navMeshAgent.SetDestination(GetRandomWanderPos(randomDestDistance, -1));
-            }
-        }
-
         if (currentState == state.Wander)
         {
             WanderState();
         }
-        if(currentState == state.Seek)
+        if (currentState == state.Seek)
         {
             SeekState();
         }
     }
 
+    private void FixedUpdate()
+    {
+        var ray = new Ray(this.transform.position, this.transform.forward);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit, 1f, LayerMask.GetMask("Character")))
+        {
+            if (weapon.GetName() != GroceryName.Default)
+            {
+                Push();
+                navMeshAgent.SetDestination(GetRandomWanderPos(randomDestDistance, -1));
+            }
+        }
+    }
     void HandleWalkingAnim()
     {
         if (navMeshAgent.velocity.magnitude > 0f)
@@ -176,17 +179,13 @@ public class EnemyAIController : Shopper
         debuffed = false;
     }
 
-    private void OnTriggerEnter(Collider collider)
+    void OnPickupDetected(Pickup item)
     {
-        Pickup item = collider.GetComponent<Pickup>();
-        if (item != null)
+        if (NeedGrocery(item.GetGroceryName()))
         {
-            if (NeedGrocery(item.GetGroceryName()))
-            {
-                navMeshAgent.SetDestination(item.GetComponent<Transform>().position);
-                focus = item;
-                currentState = state.Seek;
-            }
+            navMeshAgent.SetDestination(item.GetComponent<Transform>().position);
+            focus = item;
+            currentState = state.Seek;
         }
     }
 }
