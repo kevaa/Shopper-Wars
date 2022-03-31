@@ -9,7 +9,6 @@ public class EnemyAIController : Shopper
     public event Action OnEquipped = delegate { };
 
     public event Action<int> OnTrapEquipped = delegate { };
-    public event Action<GroceryName> OnFoundAll = delegate { };
 
     NavMeshAgent navMeshAgent;
     float randomDestDistance = 30f;
@@ -62,7 +61,7 @@ public class EnemyAIController : Shopper
 
     private void FixedUpdate()
     {
-        var ray = new Ray(this.transform.position, this.transform.forward);
+        var ray = new Ray(this.transform.position + transform.forward, this.transform.forward);
         RaycastHit hit;
         if (Physics.Raycast(ray, out hit, 2f, LayerMask.GetMask("Character")))
         {
@@ -92,7 +91,12 @@ public class EnemyAIController : Shopper
     }
     void WanderState()
     {
-        if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
+        // Finished placing trap
+        if (navMeshAgent.isStopped && !coroutineActive)
+        {
+            navMeshAgent.isStopped = false;
+        }
+        if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance && !coroutineActive)
         {
             navMeshAgent.SetDestination(GetRandomWanderPos(randomDestDistance, -1));
         }
@@ -111,17 +115,15 @@ public class EnemyAIController : Shopper
                 var weapon = item.GetComponent<Weapon>();
                 if (trap != null)
                 {
+                    navMeshAgent.isStopped = true;
                     EquipTrap(item);
-                    OnTrapEquipped(trap.GetTrapCount());
+                    PlaceTrap();
+                    navMeshAgent.SetDestination(-transform.forward * 10f);
+
                 }
                 else if (weapon != null)
                 {
                     EquipWeapon(item);
-                }
-
-                if (!NeedGrocery(groceryName))
-                {
-                    OnFoundAll(groceryName);
                 }
             }
             currentState = state.Wander;
@@ -133,6 +135,15 @@ public class EnemyAIController : Shopper
         var randomSurroundingPos = transform.position + (UnityEngine.Random.insideUnitSphere * dist);
         NavMeshHit navMeshHit;
         NavMesh.SamplePosition(randomSurroundingPos, out navMeshHit, dist, layermask);
+
+        return navMeshHit.position;
+    }
+
+    public Vector3 GetPositionBehind(float dist, int layermask)
+    {
+        var behind = -transform.forward * 10f;
+        NavMeshHit navMeshHit;
+        NavMesh.SamplePosition(behind, out navMeshHit, 1f, layermask);
 
         return navMeshHit.position;
     }
