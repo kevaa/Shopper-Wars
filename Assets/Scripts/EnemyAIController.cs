@@ -96,7 +96,7 @@ public class EnemyAIController : Shopper
     }
     void SeekState()
     {
-        if (navMeshAgent.remainingDistance < navMeshAgent.stoppingDistance)
+        if (navMeshAgent.remainingDistance < 4f)
         {
             var item = focus.PickupItem();
             var groceryName = focus.GetGroceryName();
