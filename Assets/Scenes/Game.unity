@@ -5647,6 +5647,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   endGameMenu: {fileID: 1198488306}
+  player: {fileID: 465853124}
 --- !u!4 &490940316
 Transform:
   m_ObjectHideFlags: 0

@@ -9,7 +9,9 @@ public class Player : Shopper
     public event Action OnEquipped = delegate { };
 
     public event Action<int> OnTrapEquipped = delegate { };
-    public event Action<GroceryName> OnFoundAll = delegate { };
+    public event Action<GroceryName> OnFoundAllOfName = delegate { };
+    public event Action OnFoundAll = delegate { };
+
 
     public event Action OnTrapPlaced = delegate { };
 
@@ -89,7 +91,12 @@ public class Player : Shopper
 
                     if (!NeedGrocery(groceryName))
                     {
-                        OnFoundAll(groceryName);
+                        OnFoundAllOfName(groceryName);
+                    }
+
+                    if (FoundAllGroceries())
+                    {
+                        OnFoundAll();
                     }
                 }
             }

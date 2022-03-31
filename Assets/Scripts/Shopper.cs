@@ -146,6 +146,18 @@ public abstract class Shopper : MonoBehaviour, IPushable
         return groceriesFound.ContainsKey(groceryName) ? groceriesFound[groceryName] < groceryList[groceryName] : false;
     }
 
+    public bool FoundAllGroceries()
+    {
+        foreach (var pair in groceriesFound)
+        {
+            if (pair.Value != groceryList[pair.Key])
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public string GetGroceryListString(Dictionary<GroceryName, int> list)
     {
         String s = "";

@@ -47,7 +47,7 @@ public class Spawner : MonoBehaviour
         }
         shoppers = new List<Shopper>();
         pickups = new List<Pickup>();
-        player.OnFoundAll += OnFoundAll;
+        player.OnFoundAllOfName += OnFoundAllOfName;
         List<PlayerNameList> values = Enum.GetValues(typeof(PlayerNameList)).Cast<PlayerNameList>().ToList();
         values.Shuffle();
 
@@ -151,7 +151,7 @@ public class Spawner : MonoBehaviour
         leaderboard = d;
     }
 
-    public void OnFoundAll(GroceryName grocery)
+    public void OnFoundAllOfName(GroceryName grocery)
     {
         foreach (var pickup in pickups)
         {

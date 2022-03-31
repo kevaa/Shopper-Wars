@@ -14,6 +14,8 @@ public class GameManager : MonoBehaviour
     public event Action OnGameEnd = delegate { };
     private static GameManager instance;
     public static GameManager Instance { get { return instance; } }
+    [SerializeField] Player player;
+
     private void Awake()
     {
         if (instance != null && instance != this)
@@ -24,6 +26,10 @@ public class GameManager : MonoBehaviour
         {
             instance = this;
         }
+        if (PlayerPrefs.HasKey("EndGameEarly") && PlayerPrefs.GetInt("EndGameEarly") == 1)
+        {
+            player.OnFoundAll += EndGame;
+        }
 
     }
     void Update()
@@ -33,7 +39,6 @@ public class GameManager : MonoBehaviour
             if (gameTime <= 0)
             {
                 EndGame();
-                UpdateStatsBoard();
             }
             else
             {
@@ -50,6 +55,7 @@ public class GameManager : MonoBehaviour
         OnGameEnd();
         endGameMenu.SetActive(true);
         StartCoroutine(FadeInEndMenu());
+        UpdateStatsBoard();
     }
 
     IEnumerator FadeInEndMenu()

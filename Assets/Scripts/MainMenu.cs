@@ -1,13 +1,17 @@
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
 
 public class MainMenu : MonoBehaviour
 {
     public GameObject customizationCanvas;
     public GameObject statsCanvas;
+    [SerializeField] Toggle endGameToggle;
 
     public void PlayGame()
     {
+        PlayerPrefs.SetInt("EndGameEarly", endGameToggle.isOn ? 1 : 0);
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -30,4 +34,5 @@ public class MainMenu : MonoBehaviour
     {
         StatsticsBoard.Instance.clearAllData();
     }
+
 }
