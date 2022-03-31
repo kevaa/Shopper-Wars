@@ -5738,7 +5738,7 @@ MonoBehaviour:
   - {fileID: 26763128}
   - {fileID: 1345807575}
   - {fileID: 837618775}
-  numEnemies: 4
+  numEnemies: 1
   numBaseGroceriesPerShopper: 5
   numSharedGroceries: 1
 --- !u!1001 &500305684

@@ -10,7 +10,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
 {
     GameObject equippedTrapPrefab;
 
-    [SerializeField] GameObject defaultWeaponPrefab;
+    [SerializeField] protected GameObject defaultWeaponPrefab;
     public int trapCount { get; private set; }
     Dictionary<GroceryName, int> groceriesFound;
     protected Rigidbody rb;
@@ -19,7 +19,7 @@ public abstract class Shopper : MonoBehaviour, IPushable
     [SerializeField] Transform trapSpawnTransform;
     [SerializeField] protected Transform weaponTransform;
     public event Action<Dictionary<GroceryName, int>, Dictionary<GroceryName, int>> OnGroceriesChanged = delegate { };
-    Weapon weapon;
+    protected Weapon weapon;
 
     public bool coroutineActive { get; private set; } = false; // When shopper doing action like placing trap/pushing
     protected Animator animator;
