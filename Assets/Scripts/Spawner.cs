@@ -54,7 +54,7 @@ public class Spawner : MonoBehaviour
         // spawn enemies
         var rand = new System.Random();
         var enemySpawnPosInd = 0;
-        for (int i = 0; i < numPlayers; i++)
+        for (int i = 0; i < numEnemies; i++)
         {
             var prefabInd = rand.Next(enemyPrefabs.Length);
             var tempShopper = Instantiate(enemyPrefabs[prefabInd], enemySpawnPositions[enemySpawnPosInd++]).GetComponent<Shopper>();
