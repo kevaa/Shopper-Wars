@@ -7,6 +7,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 8458615894180191135}
     m_Modifications:
+    - target: {fileID: 532291192651553737, guid: 28e4d28916364874db3e4d7d1279cd0d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 6.5
+      objectReference: {fileID: 0}
     - target: {fileID: 1302887256357677298, guid: 28e4d28916364874db3e4d7d1279cd0d, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -51,9 +55,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1342049087845743602, guid: 28e4d28916364874db3e4d7d1279cd0d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -11.999998
+      objectReference: {fileID: 0}
+    - target: {fileID: 8283090109428436977, guid: 28e4d28916364874db3e4d7d1279cd0d, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -3.5
+      objectReference: {fileID: 0}
     - target: {fileID: 8291686428412085829, guid: 28e4d28916364874db3e4d7d1279cd0d, type: 3}
       propertyPath: m_Name
       value: Graphics 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8291686428412085829, guid: 28e4d28916364874db3e4d7d1279cd0d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 28e4d28916364874db3e4d7d1279cd0d, type: 3}
@@ -115,6 +131,10 @@ PrefabInstance:
     - target: {fileID: 1539383839619693855, guid: 39997cbcf87c04d4284291b3030678e2, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6711123463833860025, guid: 39997cbcf87c04d4284291b3030678e2, type: 3}
+      propertyPath: m_Radius
+      value: 1.9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 39997cbcf87c04d4284291b3030678e2, type: 3}

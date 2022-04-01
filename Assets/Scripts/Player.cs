@@ -17,6 +17,7 @@ public class Player : Shopper
 
     public event Action OnEnteredPickupRadius = delegate { };
     public event Action OnLeftPickupRadius = delegate { };
+    bool pickupTargetSet;
     bool debuffed = false;
     public float moveSpeed { get; private set; }
     [SerializeField] float defaultMoveSpeed;
@@ -55,6 +56,11 @@ public class Player : Shopper
 
     void Update()
     {
+        if (pickupTargetSet && currentPickup == null)
+        {
+            pickupTargetSet = false;
+            OnLeftPickupRadius();
+        }
         if (attackButton.pressed || Input.GetKeyDown(KeyCode.P))
         {
             Push();
@@ -110,6 +116,7 @@ public class Player : Shopper
         {
             currentPickup = pickup;
             OnEnteredPickupRadius();
+            pickupTargetSet = true;
         }
     }
     private void OnTriggerExit(Collider other)
@@ -119,6 +126,7 @@ public class Player : Shopper
         {
             currentPickup = null;
             OnLeftPickupRadius();
+            pickupTargetSet = false;
         }
     }
 
