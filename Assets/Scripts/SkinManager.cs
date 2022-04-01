@@ -27,6 +27,11 @@ public class SkinManager : MonoBehaviour
         DontDestroyOnLoad(this);
     }
 
+    private void Start()
+    {
+        UnlockSkins(StatsticsBoard.Instance.GetNumberTotalSkinUnlocked());
+    }
+
     public void SetSkin(int skinIndex)
     {
         if (skinIndex > 0 && skinIndex < skinPrefabs.Count)
@@ -35,4 +40,16 @@ public class SkinManager : MonoBehaviour
             skinSelectGlow.transform.position = skinButtons[skinIndex].transform.position;
         }
     }
+
+    public void UnlockSkins(int skinCount)
+    {
+        if (skinCount > skinButtons.Count - 1) skinCount = skinButtons.Count - 1;
+
+        for (int i = 0; i < skinCount; i++)
+        {
+            skinButtons[i + 1].gameObject.SetActive(true);
+        }
+
+    }
+
 }

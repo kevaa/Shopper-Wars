@@ -103,6 +103,10 @@ public class GameManager : MonoBehaviour
             StatsticsBoard.Instance.SetNumberTotalWin(StatsticsBoard.Instance.GetNumberTotalWin() + 1);
         }
 
+        //unlock skins
+        int skinsUnlocked = StatsticsBoard.Instance.GetNumberTotalWin() / 2;
+        StatsticsBoard.Instance.SetNumberTotalSkinUnlocked(skinsUnlocked);
+
         PlayerPrefs.Save();
         gameEnded = true;
     }
