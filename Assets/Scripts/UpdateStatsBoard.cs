@@ -46,7 +46,7 @@ public class UpdateStatsBoard : MonoBehaviour
         text += "2nd Place: " + StatsticsBoard.Instance.GetNumberSecondPlace() + "\n";
         text += "3rd Place: " + StatsticsBoard.Instance.GetNumberThirdPlace() + "\n";
         text += "\n";
-        text += "Current Record: " + StatsticsBoard.Instance.GetTimeRecord() + "\n";
+        text += "Current Best Record: " + StatsticsBoard.Instance.GetTimeRecord().ToString("F2") + " seconds\n";
         text += "\n";
         text += "Skins Unlocked: " + StatsticsBoard.Instance.GetNumberTotalSkinUnlocked() + "\n";
         textGUI.text = text;
