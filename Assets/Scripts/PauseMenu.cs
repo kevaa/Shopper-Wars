@@ -53,6 +53,7 @@ public class PauseMenu : MonoBehaviour
         {
             Time.timeScale = 1;
         }
+        AudioListener.pause = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 
