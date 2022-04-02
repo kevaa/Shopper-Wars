@@ -34,7 +34,7 @@ public class SkinManager : MonoBehaviour
 
     public void SetSkin(int skinIndex)
     {
-        if (skinIndex > 0 && skinIndex < skinPrefabs.Count)
+        if (skinIndex >= 0 && skinIndex < skinPrefabs.Count)
         {
             selectedSkin = skinPrefabs[skinIndex];
             skinSelectGlow.transform.position = skinButtons[skinIndex].transform.position;
