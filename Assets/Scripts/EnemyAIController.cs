@@ -118,7 +118,7 @@ public class EnemyAIController : Shopper
                     navMeshAgent.isStopped = true;
                     EquipTrap(item);
                     PlaceTrap();
-                    navMeshAgent.SetDestination(-transform.forward * 10f);
+                    navMeshAgent.SetDestination(GetPositionBehind(10f, -1));
 
                 }
                 else if (weapon != null)
@@ -146,7 +146,7 @@ public class EnemyAIController : Shopper
 
     public Vector3 GetPositionBehind(float dist, int layermask)
     {
-        var behind = -transform.forward * 10f;
+        var behind = -transform.forward * dist;
         NavMeshHit navMeshHit;
         NavMesh.SamplePosition(behind, out navMeshHit, 1f, layermask);
 
