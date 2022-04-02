@@ -128,6 +128,11 @@ public class EnemyAIController : Shopper
             }
             currentState = state.Wander;
         }
+        else if (navMeshAgent.remainingDistance <= navMeshAgent.stoppingDistance)
+        {
+            currentState = state.Wander;
+
+        }
     }
 
     public Vector3 GetRandomWanderPos(float dist, int layermask)
